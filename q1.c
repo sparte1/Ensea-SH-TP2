@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include <stdio.h>
 
 // Write a message to standard output
 void write_stdout(const char *message) {
@@ -22,7 +23,7 @@ void write_stderr_and_exit(const char *message) {
 
 // Validate command-line arguments: Expect exactly 3 arguments (operation, server, file)
 void validate_args(int argc, const char *operation) {
-    if (argc != 3) {  
+    if (argc != 4) {  // 4 for : ./q1 operation server file
         if (strcmp(operation, "gettftp") == 0) {
             write_stderr_and_exit("Usage: gettftp <server> <file>\n");
         } else if (strcmp(operation, "puttftp") == 0) {
@@ -55,13 +56,13 @@ void perform_operation(const char *operation, const char *server, const char *fi
 }
 
 int main(int argc, char *argv[]) {
-	// Extract the operation (gettftp or puttftp)
-    const char *operation = argv[0]; 
+	// Extract the operation (gettftp or puttftp)	
+    const char *operation = argv[1]; 
     validate_args(argc, operation);
-
+    
     // Extract server and file
-    const char *server = argv[1];
-    const char *file = argv[2];
+    const char *server = argv[2];
+    const char *file = argv[3];
     
     perform_operation(operation, server, file);
 
