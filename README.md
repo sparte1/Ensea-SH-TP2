@@ -10,3 +10,9 @@ Cédric JOVENET, Marin KERBORIOU
 We open 2 terminals, the first to test the functions of our local program (gettftp, getaddr ...)
 the second one to connect on the esrver with the server file : `cat go.sh`
 then we can communicate with the server on the first terminal.
+
+
+### commands for q3 
+`chmod u+x tftpd`
+`chmod u+x go.sh`
+`./go.sh`
