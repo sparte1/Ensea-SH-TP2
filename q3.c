@@ -5,135 +5,63 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <stdio.h>
-#include <arpa/inet.h>
 
-
-// Write a message to standard output
-void write_stdout(const char *message) {
-    if (write(STDOUT_FILENO, message, strlen(message)) == -1) {
-        _exit(EXIT_FAILURE);
-    }
-}
-
-// Write a message to standard error and exit
-void write_stderr_and_exit(const char *message) {
-    if (write(STDERR_FILENO, message, strlen(message)) == -1) {
-        _exit(EXIT_FAILURE);
-    }
-    _exit(EXIT_FAILURE);
-}
 
 // Validate command-line arguments: Expect exactly 3 arguments (operation, server, file)
-void validate_args(int argc, const char *operation) {
-    if (argc != 4) {  // 4 for : ./q1 operation server file
-        if (strcmp(operation, "gettftp") == 0) {
-            write_stderr_and_exit("Usage: gettftp <server> <file>\n");
-        } else if (strcmp(operation, "puttftp") == 0) {
-            write_stderr_and_exit("Usage: puttftp <server> <file>\n");
-        } else {
-            write_stderr_and_exit("Invalid operation. Use 'gettftp' or 'puttftp'.\n");
-        }
+void validate_args(int argc, char *argv[]) {
+    if (argc != 3) {
+        fprintf(stderr, "Usage: %s <domain> <file>\n", argv[0]);
+        exit(EXIT_FAILURE); // Exit if the arguments are invalid
     }
 }
 
-// Resolve the server's address using getaddrinfo
-struct addrinfo* resolve_server(const char *server) {
+// Resolve the server address using getaddrinfo
+struct addrinfo* resolve_server(const char *domain, const char *port) {
     struct addrinfo hints, *res;
+
+    // Initialize the hints structure
     memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_INET;       // IPv4
-    hints.ai_socktype = SOCK_DGRAM;  // UDP
+    hints.ai_family = AF_INET;       // Use IPv4
+    hints.ai_socktype = SOCK_DGRAM;  // Use UDP for TFTP
     
-	int ret = getaddrinfo(server, "1069", &hints, &res);
-    if (ret != 0) {
-		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(ret));
-		exit(EXIT_FAILURE);
-	}
+    // Call getaddrinfo to resolve the server's address
+    int status = getaddrinfo(domain, port, &hints, &res);
+    if (status != 0) {
+        fprintf(stderr, "Error in getaddrinfo: %s\n", gai_strerror(status));
+        exit(EXIT_FAILURE); // Exit on failure
+    }
 
-    return res; 
+    return res; // Return the resolved address (caller must free it)
 }
 
-// Print the resolved server address
-void print_resolved_address(struct addrinfo *res) {
-    struct sockaddr_in *ipv4 = (struct sockaddr_in *)res->ai_addr;
-    char ipstr[INET_ADDRSTRLEN]; // For storing the IPv4 address
-
-    // Convert the IPv4 address to a string
-    inet_ntop(res->ai_family, &(ipv4->sin_addr), ipstr, sizeof(ipstr));
-    write_stdout(" IPv4 adress : ");
-    write_stdout(ipstr);
-    write_stdout("\n");
-}
-
-// Create a socket and connect to the server
-int create_and_connect_socket(struct addrinfo *res) {
+int create_socket(struct addrinfo *res) {
     int sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
-    if (sockfd == -1) {
-        write_stderr_and_exit("Failed to create socket.\n");
+    if (sockfd < 0) {
+        perror("Error creating socket");
+        exit(EXIT_FAILURE);
     }
-    
-    // Connect to the server
-    if (connect(sockfd, res->ai_addr, res->ai_addrlen) == -1) {
-        write_stderr_and_exit("Failed to connect to the server.\n");
-    }
-
     return sockfd;
 }
 
-// Perform the requested operation
-void perform_operation(const char *operation, const char *server, const char *file) {
-    if (strcmp(operation, "gettftp") == 0) {
-        write_stdout("Preparing to GET file...\n");
-        write_stdout("Downloading from server: ");
-        write_stdout(server);
-        write_stdout("\nFile to download: ");
-        write_stdout(file);
-        write_stdout("\n");
-        
-        struct addrinfo *res = resolve_server(server);
-        print_resolved_address(res);
-        
-        // Create a socket and connect to the server
-        int sockfd = create_and_connect_socket(res);
-        write_stdout("Socket successfully created and connected.\n");
-        
-        // Close the socket after use
-        close(sockfd);
-        
-        freeaddrinfo(res);
-	} else if (strcmp(operation, "puttftp") == 0) {
-        write_stdout("Preparing to PUT file...\n");
-        write_stdout("Uploading to server: ");
-        write_stdout(server);
-        write_stdout("\nFile to upload: ");
-        write_stdout(file);
-        write_stdout("\n");
-        
-        struct addrinfo *res = resolve_server(server);
-        print_resolved_address(res);
-        
-        // Create a socket and connect to the server
-        int sockfd = create_and_connect_socket(res);
-        write_stdout("Socket successfully created and connected.\n");
-        
-        // Close the socket after use
-        close(sockfd);
-        
-        freeaddrinfo(res);
-    } else {
-        write_stderr_and_exit("Invalid operation. Use 'gettftp' or 'puttftp'.\n");
-    }
-}
 
 int main(int argc, char *argv[]) {
-	// Extract the operation (gettftp or puttftp)	
-    const char *operation = argv[1]; 
-    validate_args(argc, operation);
-    
-    // Extract server and file
-    const char *server = argv[2];
-    const char *file = argv[3];
-    
-    perform_operation(operation, server, file);
+    // Step 1: Validate the command-line arguments
+    validate_args(argc);
 
-    return 0;
+    // Step 2: Extract the domain and file name from arguments
+    char *domain = argv[1];  // Server's address (e.g., "127.0.0.1")
+    char *filename = argv[2]; // Name of the file to download
+    char *port = "69";        // Default TFTP Port
+
+    // Step 3: Resolve the server's address
+    struct addrinfo *res = resolve_server(domain, port);
+    
+    // Step 4: Create a socket
+    int sockfd = create_socket(res);
+    
+    // Step 5: Cleanup and close resources
+    freeaddrinfo(res);
+    close(sockfd);
+
+    return 0; // Exit successfully
 }
