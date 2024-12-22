@@ -3,6 +3,11 @@
 Cédric JOVENET, Marin KERBORIOU
 2G1 TP3
 
+## Objectives : Develop a TFTP client using RFC specifications and Wireshark captures
+
+In this lab, we will create a program that allows sending and receiving files with a server using a simple protocol called TFTP (Trivial File Transfer Protocol). This protocol is often used for tasks such as installing operating systems on computers over a network or updating equipment like routers. We need to implement two commands: one for downloading a file from the server (gettftp) and another for uploading a file to the server (puttftp). We will learn how to send the correct requests to the server, receive responses, and test everything using Wireshark to observe what happens on the network.
+
+
 ## How to use
 
 ### commands
