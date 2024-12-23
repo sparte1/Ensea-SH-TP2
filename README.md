@@ -21,6 +21,7 @@ We open 3 terminals:
 - 2nd terminal:
   - you go to the folder where there is the server. For us, we do: `cd Ensea-SH-TP2` then `cd server`.
   - you start the server: `./go.sh`
+  - If you don't have the permission, do: `chmod u+x tftpd` and `chmod u+x go.sh`, then  `./go.sh`
 - 3rd terminal:
   - you go to the folder where there is the code: `cd Ensea-SH-TP2`
   - To launch the code, choose a file: `gcc -o q4 q4.c` then `./q4.c`
@@ -28,8 +29,3 @@ We open 3 terminals:
 Now, on Wireshark, you should see a new line
 
 
-
-### commands for q3 
-`chmod u+x tftpd`
-`chmod u+x go.sh`
-`./go.sh`
