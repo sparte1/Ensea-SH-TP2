@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     // Step 2: Extract the domain and file name from arguments
     char *domain = argv[1];  // Server's address (e.g., "127.0.0.1")
     char *filename = argv[2]; // Name of the file to download
-    char *port = "69";        // Default TFTP Port
+    char *port = "1069";        // Default TFTP Port
     
     return 0;
 }
