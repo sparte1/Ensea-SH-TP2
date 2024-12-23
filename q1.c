@@ -17,7 +17,7 @@ void validate_args(int argc, char *argv[]) {
 
 int main(int argc, char *argv[]) {
 	// Step 1: Validate the command-line arguments
-    validate_args(argc);
+    validate_args(argc, argv);
 
     // Step 2: Extract the domain and file name from arguments
     char *domain = argv[1];  // Server's address (e.g., "127.0.0.1")
