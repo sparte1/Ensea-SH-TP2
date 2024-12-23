@@ -14,7 +14,7 @@ In this lab, we will create a program that allows sending and receiving files wi
 
 We open 3 terminals:
 - 1st terminal:
--- you go to the folder where there is the server. For us, we do: `cd Ensea-SH-TP2` then `cd server`.
+  - you go to the folder where there is the server. For us, we do: `cd Ensea-SH-TP2` then `cd server`.
   -- We open wireshark `wireshark`. If you don't have the permission, do `sudo wireshark`.
   -- It will open Wireshark, then you go to capture -> interfaces -> you select 'any' -> then click on 'start'
   -- On the capture mode, go to the filter bar and write 'udp.port==1069'
