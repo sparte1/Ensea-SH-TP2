@@ -10,9 +10,7 @@ In this lab, we will create a program that allows sending and receiving files wi
 
 ## How to use
 
-### commands
-
-We open 3 terminals:
+### Terminals
 - 1st terminal:
   - you go to the folder where there is the server. For us, we do: `cd Ensea-SH-TP2` then `cd server`.
   - We open wireshark `wireshark`. If you don't have the permission, do `sudo wireshark`.
@@ -26,6 +24,7 @@ We open 3 terminals:
   - you go to the folder where there is the code: `cd Ensea-SH-TP2`
   - To launch the code, choose a file: `gcc -o q4 q4.c` then `./q4.c`
 
+### Wireshark
 Now, on Wireshark, you should see a new line
 
 
