@@ -112,7 +112,7 @@ void receive_and_process_data(int sockfd, const char *filename, struct sockaddr 
         
         // Send ACK
 		char ack[4] = {0x00, 0x04, buffer[2], buffer[3]}; // ACK with block number
-		if (sendto(sock, ack, sizeof(ack), 0, server_addr, server_addr_len) < 0) {
+		if (sendto(sockfd, ack, sizeof(ack), 0, serv_addr, serv_addr_len) < 0) {
 			perror("Error sending ACK");
 		} else {
 			fprintf(stdout, "ACK sent for block 1.\n");
@@ -126,7 +126,7 @@ void receive_and_process_data(int sockfd, const char *filename, struct sockaddr 
         
 int main(int argc, char *argv[]) {
     // Step 1: Validate the command-line arguments
-    validate_args(argc);
+    validate_args(argc, argv);
 
     // Step 2: Extract the domain and file name from arguments
     char *domain = argv[1];  // Server's address (e.g., "127.0.0.1")
@@ -140,7 +140,7 @@ int main(int argc, char *argv[]) {
     int sockfd = create_socket(res);
     
     // Step 5: Send RRQ
-    send_rrq(sock, filename, res);
+    send_rrq(sockfd, filename, res);
     
     // Step 6: Receive and process data from the server
     receive_and_process_data(sockfd, filename, res->ai_addr, res->ai_addrlen);
