@@ -34,6 +34,7 @@ struct addrinfo* resolve_server(const char *domain, const char *port) {
     return res; // Return the resolved address (caller must free it)
 }
 
+// Function to create and return a socket descriptor
 int create_socket(struct addrinfo *res) {
     int sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
     if (sockfd < 0) {
@@ -51,7 +52,7 @@ int main(int argc, char *argv[]) {
     // Step 2: Extract the domain and file name from arguments
     char *domain = argv[1];  // Server's address (e.g., "127.0.0.1")
     char *filename = argv[2]; // Name of the file to download
-    char *port = "69";        // Default TFTP Port
+    char *port = "1069";        // Default TFTP Port
 
     // Step 3: Resolve the server's address
     struct addrinfo *res = resolve_server(domain, port);
