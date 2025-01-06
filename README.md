@@ -32,6 +32,12 @@ In this lab, we will create a program that allows sending and receiving files wi
   The protocole is now TFTP.
 
 - Question 5
-  - 
+  - We received the same lines than in the question 4, but instead of a ReadRequest we have a WriteRequest and we hav another line for the ACK 0.
+  - We sent a write permission request to the server via udp on port 1069 and we wait for the Acknowledgement 0 package.
+  - We had a problem when we sent the data at the same time, therfore it was ignored by the server. On top of that we couldn't send the data on the right port.
+  - Indeed, the ACK 0 package contains the port number on which the server wants us to send the data. The port number is within a certain range for tftp and is unique for each client to separte them as they are all contacting the server on UDP port 1069 at the begining.
+  - We then read this new port and send the data on this one.
+  - When the data is correctly received by the server, it send us a ACK 1 package, ending the connection.
+    
 
 
