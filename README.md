@@ -38,6 +38,6 @@ In this lab, we will create a program that allows sending and receiving files wi
   - Indeed, the ACK 0 package contains the port number on which the server wants us to send the data. The port number is within a certain range for tftp and is unique for each client to separte them as they are all contacting the server on UDP port 1069 at the begining.
   - We then read this new port and send the data on this one.
   - When the data is correctly received by the server, it send us a ACK 1 package, ending the connection.
-    
+  - Now, the file 'test' that was created on the client repository is now on the server. We can see it by doing the command `ls` in the server's terminal.
 
 
