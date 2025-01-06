@@ -62,6 +62,7 @@ void send_rrq(int sock, const char *filename, struct addrinfo *res) {
     strcpy(rrq + 2, filename);          // Add filename
     strcpy(rrq + 2 + strlen(filename) + 1, mode); // Add transfer mode
     
+    // Send the request to the server
     if (sendto(sock, rrq, rrq_len, 0, res->ai_addr, res->ai_addrlen) < 0) {
         perror("Error sending RRQ");
         free(rrq);
