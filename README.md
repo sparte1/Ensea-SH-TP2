@@ -27,7 +27,7 @@ In this lab, we will create a program that allows sending and receiving files wi
 ### Wireshark
 - Now, on Wireshark, you should see 3 new lines : the first for the ReadRequest, the second for the data packet, and the third for the acknowledgement.
 The protocole is UDP and you can see that the first line is sent to the port 1069, because the server doesn't decode directly on this port.
-- But you don't see it with those names at the start, so you need to right click on the lines, do 'decode as', then search 'TFTP' for it to show the lines properly.
+- But you don't see the lines with those names at the start, so you need to right click on the lines, do 'decode as', then search 'TFTP' for it to show the lines properly.
 The protocole is now TFTP.
 
 
