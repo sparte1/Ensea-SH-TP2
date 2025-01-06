@@ -182,7 +182,7 @@ int main(int argc, char *argv[]) {
     // Step 5: Send WRQ and send data file
     send_wrq(sockfd, filename, res);
     
-    // Step 8: Cleanup and close resources
+    // Step 6: Cleanup and close resources
     freeaddrinfo(res);
     close(sockfd);
 
