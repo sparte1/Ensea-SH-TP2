@@ -22,7 +22,7 @@ In this lab, we will create a program that allows sending and receiving files wi
   - If you don't have the permission, do: `chmod u+x tftpd` and `chmod u+x go.sh`, then  `./go.sh`
 - 3rd terminal:
   - you go to the folder where there is the code: `cd Ensea-SH-TP2`
-  - To launch the code, choose a file: `gcc -o q4 q4.c` then `./q4.c`
+  - To launch the code, choose a file: `gcc -o q4 q4.c` then for example `./q4 localhost zeros256`
 
 ### Wireshark
 Now, on Wireshark, you should see a new line
